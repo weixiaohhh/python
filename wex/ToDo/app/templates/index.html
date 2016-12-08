@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block content %}
+    <form class="input-group"  method="post">
+    {{ form.hidden_tag() }}
+     {{ form.content(class="form-control") }}
+    {{ form.submit(class="btn btn-default") }}
+
+    </form>
+
+    <div>
+        <h2>Todo List</h2>
+        {% if todos %}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>content</th>
+                        <th>status</th>
+                        <th>time</th>
+                        <th>operate</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                {% for todo in todos %}
+                    <tr>
+                        <td>{{ todo.content }}</td>
+                        <td>
+                            {% if todo.status ==1 %}
+                             DONE
+                            {% else %}
+                            UNDONE
+                            {% endif %}
+                        </td>
+                        <td>
+                            {{ todo.time}}
+                        </td>
+                        <td>
+                            {% if todo.status==0 %}
+
+                                <a href="{{ url_for('operate',op='done',id=todo.id) }}" class="btn btn-primary">
+                                    DONE
+                                </a>
+                            {% else %}
+
+                                <a href="{{ url_for('operate',op='undone',id=todo.id) }}" class="btn btn-primary">
+                                    UNDONE
+                                </a>
+
+                            {% endif %}
+                        </td>
+                        <td>
+
+                                <a href="{{ url_for('operate',op='delete',id=todo.id) }}" class="btn btn-danger">
+                                    Delete
+                                </a>
+
+                        </td>
+
+                    </tr>
+                {% endfor %}
+
+                </tbody>
+            </table>
+        {% else %}
+            <h3 class="text-info">No todos,please add</h3>
+        {% endif %}
+
+    </div>
+{% endblock %}
+
